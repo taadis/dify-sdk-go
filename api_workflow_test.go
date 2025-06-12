@@ -148,3 +148,18 @@ func TestRunWorkflowStreaming(t *testing.T) {
 
 	t.Log("Streaming workflow test completed successfully")
 }
+
+func TestGetWorkflowRunDetail(t *testing.T) {
+	ctx := context.Background()
+	req := GetWorkflowRunDetailRequest{
+		WorkflowRunId: "test-workflow-run-id",
+	}
+
+	client := NewClient(host, apiSecretKey)
+	rsp, err := client.API().GetWorkflowRunDetail(ctx, &req)
+	if err != nil {
+		t.Fatalf("RunWorkflow encountered an error: %v", err)
+	}
+	t.Log(rsp.String())
+
+}

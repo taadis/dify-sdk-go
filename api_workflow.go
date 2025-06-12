@@ -216,3 +216,54 @@ func readResponseBody(body io.Reader) string {
 	}
 	return string(bodyBytes)
 }
+
+type GetWorkflowRunDetailRequest struct {
+	WorkflowRunId string `json:"workflow_run_id"`
+}
+
+type GetWorkflowRunDetailResponse struct {
+	// e.g.3c90c3cc-0d44-4b50-8888-8dd25736052a
+	Id string `json:"id"`
+	// e.g.3c90c3cc-0d44-4b50-8888-8dd25736052a
+	WorkflowId string `json:"workflow_id"`
+	// e.g.running,succeeded,failed,stopped
+	Status string `json:"status"`
+	// JSON string of input content.
+	Inputs map[string]interface{} `json:"inputs"`
+	// JSON object of output content.
+	Outputs map[string]interface{} `json:"outputs,omitempty"`
+	//
+	Error *string `json:"error,omitempty"`
+	// e.g.123
+	TotalSteps int64 `json:"total_steps"`
+	// e.g.123
+	TotalTokens int64 `json:"total_tokens"`
+	// e.g.123
+	CreatedAt int64 `json:"created_at"`
+	// e.g.123
+	FinishedAt int64 `json:"finished_at"`
+	// e.g.123
+	ElapsedTime int64 `json:"elapsed_time"`
+}
+
+func (r *GetWorkflowRunDetailResponse) String() string {
+	if r == nil {
+		return ""
+	}
+	bs, _ := json.Marshal(r)
+	return string(bs)
+}
+
+func (api *API) GetWorkflowRunDetail(ctx context.Context, req *GetWorkflowRunDetailRequest) (*GetWorkflowRunDetailResponse, error) {
+	r, err := api.createBaseRequest(ctx, http.MethodGet, fmt.Sprintf("/v1/workflows/run/%s", req.WorkflowRunId), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var rsp GetWorkflowRunDetailResponse
+	err = api.c.sendJSONRequest(r, &rsp)
+	if err != nil {
+		return nil, err
+	}
+	return &rsp, nil
+}
