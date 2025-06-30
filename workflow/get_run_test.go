@@ -3,9 +3,6 @@ package workflow
 import (
 	"context"
 	"testing"
-
-	"github.com/taadis/dify-sdk-go/client"
-	"github.com/taadis/dify-sdk-go/env"
 )
 
 func TestGetRun(t *testing.T) {
@@ -17,11 +14,11 @@ func TestGetRun(t *testing.T) {
 	}
 
 	req := &GetRunRequest{WorkflowRunId: workflowRunId}
-	client := NewWorkflowClient(client.DifyCloud, env.GetDifyApiKey())
+	client := NewWorkflowClient(testBaseUrl, testApiKey)
 	rsp, err := client.GetRun(ctx, req)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	t.Log(rsp.String())
+	t.Log(rsp.MarshalIndent())
 }
