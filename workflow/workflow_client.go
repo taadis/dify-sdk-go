@@ -21,6 +21,8 @@ type WorkflowClient interface {
 	StopTask(ctx context.Context, req *StopTaskRequest) (*StopTaskResponse, error)
 	// File Upload for Workflow
 	UploadFile(ctx context.Context, req *UploadFileRequest) (*UploadFileResponse, error)
+	// Get Application WebApp Settings
+	GetSite(ctx context.Context, req *GetSiteRequest) (*GetSiteResponse, error)
 }
 
 type workflowClient struct {
