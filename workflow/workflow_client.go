@@ -11,6 +11,8 @@ type WorkflowClient interface {
 	GetWorkflowLogs(ctx context.Context, req *GetWorkflowLogsRequest) (*GetWorkflowLogsResponse, error)
 	// Get Application Basic Information
 	GetInfo(ctx context.Context, req *GetInfoRequest) (*GetInfoResponse, error)
+	// Get Application Parameters Information
+	GetParameters(ctx context.Context, req *GetParametersRequest) (*GetParametersResponse, error)
 }
 
 type workflowClient struct {
