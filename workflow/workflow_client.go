@@ -9,6 +9,8 @@ import (
 type WorkflowClient interface {
 	// Get Workflow Logs
 	GetWorkflowLogs(ctx context.Context, req *GetWorkflowLogsRequest) (*GetWorkflowLogsResponse, error)
+	// Get Application Basic Information
+	GetInfo(ctx context.Context, req *GetInfoRequest) (*GetInfoResponse, error)
 }
 
 type workflowClient struct {
