@@ -163,19 +163,3 @@ func TestGetWorkflowRunDetail(t *testing.T) {
 	t.Log(rsp.String())
 
 }
-
-func TestGetWorkflowLogs(t *testing.T) {
-	ctx := context.Background()
-	req := new(GetWorkflowLogsRequest)
-	req.Keyword = "test"
-	req.Page = 1
-	req.Limit = 1
-	req.Status = WorkflowStatusFailed
-
-	client := NewClient(host, apiSecretKey)
-	rsp, err := client.API().GetWorkflowLogs(ctx, req)
-	if err != nil {
-		t.Fatalf("GetWorkflowsLogs error: %v", err)
-	}
-	t.Log(rsp.String())
-}

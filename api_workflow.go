@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"strconv"
 )
 
 // 事件类型常量
@@ -366,40 +365,4 @@ func (r *GetWorkflowLogsResponse) String() string {
 	}
 	bs, _ := json.Marshal(r)
 	return string(bs)
-}
-
-// Get Workflow Logs
-func (api *API) GetWorkflowLogs(ctx context.Context, req *GetWorkflowLogsRequest) (*GetWorkflowLogsResponse, error) {
-	r, err := api.createBaseRequest(ctx, http.MethodGet, "/v1/workflows/logs", nil)
-	if err != nil {
-		return nil, err
-	}
-
-	query := r.URL.Query()
-	if req.Keyword != "" {
-		query.Set("keyword", req.Keyword)
-	}
-	if req.Status != "" {
-		query.Set("status", string(req.Status))
-	}
-	if req.Page > 0 {
-		query.Set("page", strconv.FormatInt(int64(req.Page), 10))
-	}
-	if req.Limit > 0 {
-		query.Set("limit", strconv.FormatInt(int64(req.Limit), 10))
-	}
-	if req.CreatedByEndUserSessionId != "" {
-		query.Set("created_by_end_user_session_id", req.CreatedByEndUserSessionId)
-	}
-	if req.CreatedByAccount != "" {
-		query.Set("created_by_account", req.CreatedByAccount)
-	}
-	r.URL.RawQuery = query.Encode()
-
-	var rsp GetWorkflowLogsResponse
-	err = api.c.sendJSONRequest(r, &rsp)
-	if err != nil {
-		return nil, err
-	}
-	return &rsp, nil
 }
