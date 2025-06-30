@@ -370,7 +370,7 @@ func (r *GetWorkflowLogsResponse) String() string {
 
 // Get Workflow Logs
 func (api *API) GetWorkflowLogs(ctx context.Context, req *GetWorkflowLogsRequest) (*GetWorkflowLogsResponse, error) {
-	r, err := api.createBaseRequest(ctx, http.MethodGet, fmt.Sprintf("/v1/workflows/logs"), nil)
+	r, err := api.createBaseRequest(ctx, http.MethodGet, "/v1/workflows/logs", nil)
 	if err != nil {
 		return nil, err
 	}
