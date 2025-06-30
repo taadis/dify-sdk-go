@@ -7,56 +7,6 @@ import (
 	"time"
 )
 
-func TestRunWorkflow(t *testing.T) {
-	ctx := context.Background()
-	client := NewClient(host, apiSecretKey)
-
-	// 测试带图片的工作流请求
-	workflowReq := WorkflowRequest{
-		Inputs: map[string]interface{}{
-			"image_url_new": map[string]string{
-				"type":            "image",
-				"transfer_method": "remote_url",
-				"url":             "https://localhost/1-1.jpg",
-			},
-		},
-		ResponseMode: "blocking",
-		User:         "test-user",
-	}
-
-	resp, err := client.API().RunWorkflow(ctx, workflowReq)
-	if err != nil {
-		t.Fatalf("RunWorkflow encountered an error: %v", err)
-	}
-	t.Log(resp.String())
-
-	// 基本字段验证
-	if resp.WorkflowRunID == "" {
-		t.Errorf("Expected non-empty WorkflowRunID, got empty")
-	}
-	if resp.TaskID == "" {
-		t.Errorf("Expected non-empty TaskID, got empty")
-	}
-
-	// 验证工作流执行状态
-	if resp.Data.Status != "succeeded" {
-		t.Errorf("Expected workflow status 'succeeded', got: %v", resp.Data.Status)
-	}
-
-	// 验证输出和元数据
-	if len(resp.Data.Outputs) == 0 {
-		t.Errorf("Expected outputs, but got none")
-	}
-	if resp.Data.ElapsedTime <= 0 {
-		t.Errorf("Expected positive ElapsedTime, but got: %v", resp.Data.ElapsedTime)
-	}
-	if resp.Data.TotalSteps <= 0 {
-		t.Errorf("Expected positive TotalSteps, but got: %v", resp.Data.TotalSteps)
-	}
-
-	t.Logf("Received workflow response: %+v", resp)
-}
-
 func TestRunWorkflowStreaming(t *testing.T) {
 	client := NewClient(host, apiSecretKey)
 

@@ -7,6 +7,8 @@ import (
 )
 
 type WorkflowClient interface {
+	// Execute Workflow
+	Run(ctx context.Context, req *RunRequest) (*RunResponse, error)
 	// Get Workflow Logs
 	GetWorkflowLogs(ctx context.Context, req *GetWorkflowLogsRequest) (*GetWorkflowLogsResponse, error)
 	// Get Application Basic Information

@@ -129,3 +129,11 @@ func (c *Client) CreateBaseRequest(ctx context.Context, method string, apiUrl st
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	return req, nil
 }
+
+func (c *Client) ReadResponseBody(body io.Reader) string {
+	bodyBytes, err := io.ReadAll(body)
+	if err != nil {
+		return fmt.Sprintf("failed to read response body: %v", err)
+	}
+	return string(bodyBytes)
+}

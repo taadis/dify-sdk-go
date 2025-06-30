@@ -35,32 +35,6 @@ type WorkflowRequest struct {
 	Files        []FileInput            `json:"files,omitempty"`
 }
 
-// WorkflowResponse 结构体
-type WorkflowResponse struct {
-	WorkflowRunID string `json:"workflow_run_id"`
-	TaskID        string `json:"task_id"`
-	Data          struct {
-		ID          string                 `json:"id"`
-		WorkflowID  string                 `json:"workflow_id"`
-		Status      string                 `json:"status"`
-		Outputs     map[string]interface{} `json:"outputs"`
-		Error       *string                `json:"error,omitempty"`
-		ElapsedTime float64                `json:"elapsed_time"`
-		TotalTokens int                    `json:"total_tokens"`
-		TotalSteps  int                    `json:"total_steps"`
-		CreatedAt   int64                  `json:"created_at"`
-		FinishedAt  int64                  `json:"finished_at"`
-	} `json:"data"`
-}
-
-func (r *WorkflowResponse) String() string {
-	if r == nil {
-		return ""
-	}
-	bs, _ := json.Marshal(r)
-	return string(bs)
-}
-
 // StreamingResponse 结构体
 type StreamingResponse struct {
 	Event          string `json:"event"`
@@ -118,31 +92,6 @@ func (h *DefaultEventHandler) HandleStreamingResponse(resp StreamingResponse) {
 
 func (h *DefaultEventHandler) HandleTTSMessage(msg TTSMessage) {
 	// 默认实现为空，如果用户不关心 TTS 消息可以忽略
-}
-
-// RunWorkflow 方法
-func (api *API) RunWorkflow(ctx context.Context, request WorkflowRequest) (*WorkflowResponse, error) {
-	req, err := api.createBaseRequest(ctx, http.MethodPost, "/v1/workflows/run", request)
-	if err != nil {
-		return nil, fmt.Errorf("failed to create base request: %w", err)
-	}
-
-	resp, err := api.c.sendRequest(req)
-	if err != nil {
-		return nil, fmt.Errorf("failed to send request: %w", err)
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("API request failed with status %s: %s", resp.Status, readResponseBody(resp.Body))
-	}
-
-	var workflowResp WorkflowResponse
-	if err := json.NewDecoder(resp.Body).Decode(&workflowResp); err != nil {
-		return nil, fmt.Errorf("failed to decode response: %w", err)
-	}
-
-	return &workflowResp, nil
 }
 
 // RunStreamWorkflow 方法
