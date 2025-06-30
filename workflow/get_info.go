@@ -43,7 +43,7 @@ func (r *GetInfoResponse) String() string {
 }
 
 func (c *workflowClient) GetInfo(ctx context.Context, req *GetInfoRequest) (*GetInfoResponse, error) {
-	httpReq, err := c.CreateBaseRequest(ctx, http.MethodGet, "/v1/info", nil)
+	httpReq, err := c.CreateBaseRequest(ctx, http.MethodGet, "/info", nil)
 	if err != nil {
 		return nil, err
 	}

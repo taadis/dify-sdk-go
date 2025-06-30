@@ -13,10 +13,11 @@ import (
 )
 
 // from https://docs.dify.ai/en/openapi-api-access-readme#%F0%9F%94%91-api-access-configuration
-var DifyCloud = "https://api.dify.ai"
+var DifyCloud = "https://api.dify.ai/v1"
 
 type Client struct {
-	host string
+	// Base URL
+	baseUrl string
 	// Service API-KEY
 	apiKey string
 	// HTTP Client
@@ -34,16 +35,16 @@ func NewClientWithConfig(c *ClientConfig) *Client {
 	}
 
 	return &Client{
-		host:       c.Host,
+		baseUrl:    c.BaseUrl,
 		apiKey:     c.ApiKey,
 		httpClient: httpClient,
 	}
 }
 
-func NewClient(host, apiKey string) *Client {
+func NewClient(baseUrl string, apiKey string) *Client {
 	return NewClientWithConfig(&ClientConfig{
-		Host:   host,
-		ApiKey: apiKey,
+		BaseUrl: baseUrl,
+		ApiKey:  apiKey,
 	})
 }
 
@@ -92,9 +93,9 @@ func (c *Client) sendJSONRequest(req *http.Request, res interface{}) error {
 	return nil
 }
 
-func (c *Client) getHost() string {
-	var host = strings.TrimSuffix(c.host, "/")
-	return host
+func (c *Client) getBaseUrl() string {
+	var baseUrl = strings.TrimSuffix(c.baseUrl, "/")
+	return baseUrl
 }
 
 func (c *Client) getApiKey() string {
@@ -117,7 +118,8 @@ func (c *Client) CreateBaseRequest(ctx context.Context, method string, apiUrl st
 	} else {
 		b = http.NoBody
 	}
-	req, err := http.NewRequestWithContext(ctx, method, c.getHost()+apiUrl, b)
+
+	req, err := http.NewRequestWithContext(ctx, method, c.getBaseUrl()+apiUrl, b)
 	if err != nil {
 		return nil, err
 	}

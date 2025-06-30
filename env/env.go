@@ -2,8 +2,8 @@ package env
 
 import "os"
 
-func GetDifyApiHost() string {
-	return os.Getenv("DIFY_API_HOST")
+func GetDifyBaseUrl() string {
+	return os.Getenv("DIFY_BASE_URL")
 }
 
 func GetDifyApiKey() string {

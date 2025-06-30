@@ -6,8 +6,12 @@ import (
 )
 
 type ClientConfig struct {
-	Host      string
-	ApiKey    string
-	Timeout   time.Duration
+	// Base URL
+	BaseUrl string
+	// API-Key
+	ApiKey string
+	//
+	Timeout time.Duration
+	//
 	Transport *http.Transport
 }

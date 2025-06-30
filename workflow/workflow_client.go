@@ -19,8 +19,8 @@ type workflowClient struct {
 	*client.Client
 }
 
-func NewWorkflowClient(host string, apiKey string) WorkflowClient {
+func NewWorkflowClient(baseUrl string, apiKey string) WorkflowClient {
 	c := new(workflowClient)
-	c.Client = client.NewClient(host, apiKey)
+	c.Client = client.NewClient(baseUrl, apiKey)
 	return c
 }

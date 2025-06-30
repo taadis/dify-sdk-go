@@ -112,7 +112,7 @@ func (r *GetParametersResponse) MarshalIndent() string {
 }
 
 func (c *workflowClient) GetParameters(ctx context.Context, req *GetParametersRequest) (*GetParametersResponse, error) {
-	httpReq, err := c.CreateBaseRequest(ctx, http.MethodGet, "/v1/parameters", nil)
+	httpReq, err := c.CreateBaseRequest(ctx, http.MethodGet, "/parameters", nil)
 	if err != nil {
 		return nil, err
 	}

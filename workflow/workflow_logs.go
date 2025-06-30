@@ -106,9 +106,8 @@ func (r *GetWorkflowLogsResponse) String() string {
 	return string(bs)
 }
 
-// Get Workflow Logs
 func (c *workflowClient) GetWorkflowLogs(ctx context.Context, req *GetWorkflowLogsRequest) (*GetWorkflowLogsResponse, error) {
-	r, err := c.CreateBaseRequest(ctx, http.MethodGet, "/v1/workflows/logs", nil)
+	r, err := c.CreateBaseRequest(ctx, http.MethodGet, "/workflows/logs", nil)
 	if err != nil {
 		return nil, err
 	}
