@@ -3,6 +3,9 @@ package workflow
 import (
 	"context"
 	"testing"
+
+	"github.com/taadis/dify-sdk-go/client"
+	"github.com/taadis/dify-sdk-go/env"
 )
 
 func TestUploadFile(t *testing.T) {
@@ -15,7 +18,7 @@ func TestUploadFile(t *testing.T) {
 	}
 
 	req := &UploadFileRequest{FilePath: filePath, User: user}
-	client := NewWorkflowClient(testBaseUrl, testApiKey)
+	client := NewWorkflowClient(client.DifyCloud, env.GetDifyApiKey())
 	rsp, err := client.UploadFile(ctx, req)
 	if err != nil {
 		t.Fatal(err)

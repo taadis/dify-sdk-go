@@ -3,6 +3,9 @@ package workflow
 import (
 	"context"
 	"testing"
+
+	"github.com/taadis/dify-sdk-go/client"
+	"github.com/taadis/dify-sdk-go/env"
 )
 
 func TestStopTask(t *testing.T) {
@@ -15,7 +18,7 @@ func TestStopTask(t *testing.T) {
 	}
 
 	req := &StopTaskRequest{TaskId: taskId, User: user}
-	client := NewWorkflowClient(testBaseUrl, testApiKey)
+	client := NewWorkflowClient(client.DifyCloud, env.GetDifyApiKey())
 	rsp, err := client.StopTask(ctx, req)
 	if err != nil {
 		t.Fatal(err)
