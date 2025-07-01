@@ -17,6 +17,8 @@ type WorkflowClient interface {
 	GetParameters(ctx context.Context, req *GetParametersRequest) (*GetParametersResponse, error)
 	// Get Workflow Run Detail
 	GetRun(ctx context.Context, req *GetRunRequest) (*GetRunResponse, error)
+	// Stop Workflow Task Generation
+	StopTask(ctx context.Context, req *StopTaskRequest) (*StopTaskResponse, error)
 	// Get Application WebApp Settings
 	GetSite(ctx context.Context, req *GetSiteRequest) (*GetSiteResponse, error)
 }
