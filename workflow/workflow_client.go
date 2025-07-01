@@ -15,8 +15,6 @@ type WorkflowClient interface {
 	GetInfo(ctx context.Context, req *GetInfoRequest) (*GetInfoResponse, error)
 	// Get Application Parameters Information
 	GetParameters(ctx context.Context, req *GetParametersRequest) (*GetParametersResponse, error)
-	// Stop Workflow Task Generation
-	StopTask(ctx context.Context, req *StopTaskRequest) (*StopTaskResponse, error)
 	// File Upload for Workflow
 	UploadFile(ctx context.Context, req *UploadFileRequest) (*UploadFileResponse, error)
 	// Get Application WebApp Settings
