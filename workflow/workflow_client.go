@@ -19,6 +19,8 @@ type WorkflowClient interface {
 	GetParameters(ctx context.Context, req *GetParametersRequest) (*GetParametersResponse, error)
 	// Stop Workflow Task Generation
 	StopTask(ctx context.Context, req *StopTaskRequest) (*StopTaskResponse, error)
+  	// File Upload for Workflow
+	UploadFile(ctx context.Context, req *UploadFileRequest) (*UploadFileResponse, error)
 	// Get Application WebApp Settings
 	GetSite(ctx context.Context, req *GetSiteRequest) (*GetSiteResponse, error)
 }
