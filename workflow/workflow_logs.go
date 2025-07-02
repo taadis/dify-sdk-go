@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 type WorkflowStatus string
@@ -29,6 +30,9 @@ type GetWorkflowLogsRequest struct {
 	CreatedByEndUserSessionId string `json:"created_by_end_user_session_id"`
 	// 由哪个邮箱账户创建,例如:lizb@test.com
 	CreatedByAccount string `json:"created_by_account"`
+	// 时间区间参数
+	CreatedAtAfter  *time.Time `json:"created_at__after,omitempty"`
+	CreatedAtBefore *time.Time `json:"created_at__before,omitempty"`
 }
 
 func (r *GetWorkflowLogsRequest) String() string {
@@ -130,6 +134,12 @@ func (c *workflowClient) GetWorkflowLogs(ctx context.Context, req *GetWorkflowLo
 	}
 	if req.CreatedByAccount != "" {
 		query.Set("created_by_account", req.CreatedByAccount)
+	}
+	if req.CreatedAtAfter != nil {
+		query.Set("created_at__after", req.CreatedAtAfter.Format(time.RFC3339))
+	}
+	if req.CreatedAtBefore != nil {
+		query.Set("created_at__before", req.CreatedAtBefore.Format(time.RFC3339))
 	}
 	r.URL.RawQuery = query.Encode()
 
